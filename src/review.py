@@ -20,6 +20,9 @@ def review(config):
     objs = []
 
     for change in changes:
+        if change['deleted_file']:
+            continue
+
         new_path = change['new_path']
 
         if not __is_qml(new_path):
