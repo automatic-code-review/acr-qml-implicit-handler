@@ -44,6 +44,10 @@ def review(config):
                     # ignora arrow functions tipo () => { ... } ou (param) => { ... }
                     if re.match(r'^\([^\)]*\)\s*=>\s*{', after_colon):
                         continue
+                    # Ignora arrow functions de uma linha só: onXxx: param => handle(param)
+                    if re.match(r'^\s*\w+\s*=>', after_colon):
+                        continue
+
                     # Ignora arrow functions com múltiplos parâmetros de uma linha só: onXxx: (param1, param2) => handle(param1, param2)
                     if re.match(r'^\s*\([^\)]*\)\s*=>', after_colon):
                         continue
