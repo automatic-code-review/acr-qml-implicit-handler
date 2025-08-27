@@ -34,6 +34,10 @@ def review(config):
         with open(path, 'r', encoding='utf-8') as f:
             for line_number, line in enumerate(f, start=1):
                 if regex.search(line):
+                    after_colon = line.split(":", 1)[1].strip()
+                    # ignora funções anônimas tradicionais
+                    if after_colon.startswith("function"):
+                        continue
                     objs.append({
                         "path": new_path,
                         "line_number": line_number,
