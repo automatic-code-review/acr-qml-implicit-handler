@@ -38,6 +38,9 @@ def review(config):
                     # ignora funções anônimas tradicionais
                     if after_colon.startswith("function"):
                         continue
+                    # ignora funções compactas tipo () { ... } ou (param) { ... }
+                    if re.match(r'^\([^\)]*\)\s*{', after_colon):
+                        continue
                     objs.append({
                         "path": new_path,
                         "line_number": line_number,
