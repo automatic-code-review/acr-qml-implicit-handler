@@ -15,7 +15,8 @@ def review(config):
     changes = merge['changes']
 
     comments = []
-    regex = re.compile(r'on\w+:\s*\{')
+    # Regex genérico para capturar "onAlgo:"
+    regex = re.compile(r"\bon[A-Z]\w*\s*:")
 
     objs = []
 
