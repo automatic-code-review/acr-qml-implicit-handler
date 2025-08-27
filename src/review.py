@@ -41,6 +41,10 @@ def review(config):
                     # ignora funções compactas tipo () { ... } ou (param) { ... }
                     if re.match(r'^\([^\)]*\)\s*{', after_colon):
                         continue
+                    # ignora arrow functions tipo () => { ... } ou (param) => { ... }
+                    if re.match(r'^\([^\)]*\)\s*=>\s*{', after_colon):
+                        continue
+
                     objs.append({
                         "path": new_path,
                         "line_number": line_number,
