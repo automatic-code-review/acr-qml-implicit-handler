@@ -15,7 +15,8 @@ def review(config):
     changes = merge['changes']
 
     comments = []
-    regex = re.compile(r'on\w+:\s*\{')
+    # Regex genérico para capturar "onAlgo:"
+    regex = re.compile(r"\bon[A-Z]\w*\s*:")
 
     objs = []
 
@@ -33,6 +34,17 @@ def review(config):
         with open(path, 'r', encoding='utf-8') as f:
             for line_number, line in enumerate(f, start=1):
                 if regex.search(line):
+                    after_colon = line.split(":", 1)[1].strip()
+                    # ignora funções anônimas tradicionais
+                    if after_colon.startswith("function"):
+                        continue
+                    # ignora funções compactas tipo () { ... } ou (param) { ... }
+                    if re.match(r'^\([^\)]*\)\s*{', after_colon):
+                        continue
+                    # ignora arrow functions tipo () => { ... } ou (param) => { ... }
+                    if re.match(r'^\([^\)]*\)\s*=>\s*{', after_colon):
+                        continue
+
                     objs.append({
                         "path": new_path,
                         "line_number": line_number,
